@@ -17,8 +17,9 @@ pip install pandas lightningchart
 ```
 
 #### Overview of Libraries Used
--  *** Pandas: ***  For data manipulation and analysis.
--  *** LightningChart: ***  For creating high-performance visualizations.
+-  *Pandas:*  For data manipulation and analysis.
+-  *LightningChart:*  For creating high-performance visualizations.
+
 
 #### Setting Up Your Development Environment
 You can set up your development environment by using an IDE like PyCharm, Jupyter Notebook, or Visual Studio Code. Simply install the required libraries, import them into your script, and you’ll be ready to start loading and analyzing electric vehicle data.
