@@ -350,6 +350,30 @@ update_dashboard()
 ```
 ![livebar](images/companies.gif)
 
+#### Grouped bar chart
+Finally, a grouped bar chart has been created to forecast the status of electric vehicles based on PHEV and BEV from 2016 to 2029. It is expected that the production rate of BEV electric vehicles will increase, leading to a growing acceptance of electric vehicles at this pace.
+```bash
+# Create the grouped bar chart
+chart = lc.BarChart(
+    vertical=True,
+    theme=lc.Themes.Dark,
+    title='Electric Vehicles Revenue (2016-2029)'
+)
+chart.set_sorting('disabled')
+# Set the data to be grouped by year
+chart.set_data_grouped(
+    years,
+    data
+)
+# Add a legend and open the chart
+chart.add_legend(x=18,y=44).add(chart)
+chart.open()
+
+```
+![groupbar](images/groupbar.png)
+
+The data illustrates significant growth in the production rates of both BEVs and PHEVs, with BEVs experiencing a particularly steep increase over the years. This growth indicates that the acceptance of electric vehicles is likely to rise sharply, reflecting a broader trend towards sustainable transportation solutions. The grouped bar chart provides a clear visualization of these trends, making it easier to analyze and predict future developments in the electric vehicle market.
+
 ### Conclusion
 In this project, LightningChart in Python was employed to create a diverse array of charts that facilitate a comprehensive analysis and visualization of electric vehicle data. The visualizations encompass gauge charts, spider charts, 3D box charts, and live bar charts, each designed to provide valuable insights into key aspects such as vehicle performance metrics, global adoption trends, and competitive comparisons among manufacturers.
 These charts significantly enhance the understanding of the electric vehicle ecosystem, allowing stakeholders—including manufacturers, policymakers, and consumers—to make informed decisions based on accurate data. By visually representing complex data sets, LightningChart not only streamlines the analysis process but also fosters greater engagement with the data.
