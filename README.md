@@ -17,8 +17,8 @@ pip install pandas lightningchart
 ```
 
 #### Overview of Libraries Used
-- *** Pandas: ***  For data manipulation and analysis.
-- *** LightningChart: ***  For creating high-performance visualizations.
+-  *** Pandas: ***  For data manipulation and analysis.
+-  *** LightningChart: ***  For creating high-performance visualizations.
 
 #### Setting Up Your Development Environment
 You can set up your development environment by using an IDE like PyCharm, Jupyter Notebook, or Visual Studio Code. Simply install the required libraries, import them into your script, and you’ll be ready to start loading and analyzing electric vehicle data.
@@ -33,48 +33,6 @@ In the first section, multiple electric vehicles were compared based on various 
 #### Chart 1: Two-Row Dashboard
 In this dashboard, two rows are used to compare two electric vehicles from Tesla and Volkswagen.
 ```bash
-import lightningchart as lc
-import numpy as np
-# Set your license key
-lc.set_license('my_license_key')
-# Create a dashboard with 2 rows and 3 columns
-dashboard = lc.Dashboard(theme=lc.Themes.Dark, rows=2, columns=3)
-# Data for Tesla Model 3 Long Range Dual Motor
-tesla_data = {
-    "AccelSec": 4.4,  
-    "TopSpeed_KmH": 233, 
-    "Range_Km": 580 
-}
-# Data for Volkswagen ID.3 Pure
-volkswagen_data = {
-    "AccelSec": 10,  
-    "TopSpeed_KmH": 160,  
-    "Range_Km": 330 
-}
-# Define gauge properties
-gauge_intervals = {
-    "AccelSec": (0, 15),  
-    "TopSpeed_KmH": (0, 250),  
-    "Range_Km": (0, 600)  
-}
-# Define color bands for gauges
-gauge_colors = {
-    "AccelSec": [
-        { 'start': 0, 'end': 5, 'color': lc.Color('green') },  
-        { 'start': 5, 'end': 10, 'color': lc.Color('yellow') },  
-        { 'start': 10, 'end': 15, 'color': lc.Color('red') } 
-    ],
-    "TopSpeed_KmH": [
-        { 'start': 0, 'end': 100, 'color': lc.Color('red') },
-        { 'start': 100, 'end': 200, 'color': lc.Color('yellow') },
-        { 'start': 200, 'end': 250, 'color': lc.Color('green') }
-    ],
-    "Range_Km": [
-        { 'start': 0, 'end': 200, 'color': lc.Color('red') },
-        { 'start': 200, 'end': 400, 'color': lc.Color('yellow') },
-        { 'start': 400, 'end': 600, 'color': lc.Color('green') }
-    ]
-}
 # Function to create a gauge chart with a title
 def create_gauge(row, column, title, value, value_range, value_indicators):
     chart = dashboard.GaugeChart(row_index=row, column_index=column)
@@ -158,59 +116,6 @@ def create_live_dashboard():
         chart.set_title(title)  # Set title for the chart
         return chart
 
-    # Create gauges for Tesla, Volkswagen, BMW, Mercedes, and Skoda
-    tesla_gauge = create_gauge(0, 0, "Tesla (0-100 km/h)", 0, gauge_intervals["AccelSec"], gauge_colors["AccelSec"])
-    volkswagen_gauge = create_gauge(0, 1, "Volkswagen (0-100 km/h)", 0, gauge_intervals["AccelSec"], gauge_colors["AccelSec"])
-    bmw_gauge = create_gauge(0, 2, "BMW (0-100 km/h)", 0, gauge_intervals["AccelSec"], gauge_colors["AccelSec"])
-    mercedes_gauge = create_gauge(0, 3, "Mercedes (0-100 km/h)", 0, gauge_intervals["AccelSec"], gauge_colors["AccelSec"])
-    skoda_gauge = create_gauge(0, 4, "Skoda CITIGOe iV (0-100 km/h)", 0, gauge_intervals["AccelSec"], gauge_colors["AccelSec"])  # Added Skoda gauge
-
-    # Line Chart for speed over time in row 2
-    chart_speed = dashboard.ChartXY(row_index=1, column_index=0, column_span=5, title="Speed over Time (0-100 km/h)")
-    chart_speed.get_default_x_axis().set_title("Time (seconds)")
-    chart_speed.get_default_y_axis().set_title("Speed (km/h)")
-
-    # Adding line series for Tesla, Volkswagen, BMW, Mercedes, and Skoda
-    series_dict = {}
-    for car in car_data.keys():
-        series = chart_speed.add_line_series()
-        series.set_name(f"{car} Speed")
-        series_dict[car] = series
-
-    # Function to update the speed line chart and gauges dynamically
-    def update_charts():
-        max_time = 13  # Maximum time for the simulation (seconds)
-        time_step = 0.1  # Time step in seconds
-
-        time_data = np.arange(0, max_time, time_step)  # Time values from 0 to max_time with a step of 0.1
-
-
-        for t in time_data:
-            for car in car_data.keys():
-                accel_time = car_data[car]["AccelSec"]
-                top_speed = car_data[car]["TopSpeed_KmH"]
-
-                # Calculate the current speed at time t
-                speed = min(t / accel_time * top_speed, top_speed)
-
-                # Update the line chart for each car
-                series_dict[car].add(t, speed)
-
-                # Update the gauge for each car when time reaches their acceleration limit
-                if car == "Tesla" and t <= car_data["Tesla"]["AccelSec"]:
-                    tesla_gauge.set_value(t)
-                if car == "Volkswagen" and t <= car_data["Volkswagen"]["AccelSec"]:
-                    volkswagen_gauge.set_value(t)
-                if car == "BMW" and t <= car_data["BMW"]["AccelSec"]:
-                    bmw_gauge.set_value(t)
-                if car == "Mercedes" and t <= car_data["Mercedes"]["AccelSec"]:
-                    mercedes_gauge.set_value(t)
-                if car == "Skoda CITIGOe iV" and t <= car_data["Skoda CITIGOe iV"]["AccelSec"]:
-                    skoda_gauge.set_value(t)
-
-            # Sleep to simulate real-time updates
-            time.sleep(time_step)
-
     # Open the dashboard and start real-time updates
     dashboard.open(live=True)
     update_charts()
@@ -276,25 +181,6 @@ dashboard = lc.Dashboard(theme=lc.Themes.Dark, rows=1, columns=1)
 # Create a horizontal Bar Chart for each region
 bar_chart = dashboard.BarChart(row_index=0, column_index=0, vertical=False)
 # Function to update the chart for each year
-def update_bar_chart_for_year(year):
-    data_for_year = pivot_data.loc[year]
-
-    bar_data = [
-        {"category": region, "value": value}
-        for region, value in zip(data_for_year.index, data_for_year.values)
-    ]
-
-    bar_chart.set_data(bar_data)
-    bar_chart.set_title(f"PHEV Vehicles by Country - Year {year}")
-
-
-# Function to simulate real-time updates
-def update_dashboard():
-    for year in range(2011, 2024):
-        print(f"Updating data for year: {year}")
-        update_bar_chart_for_year(year)
-        time.sleep(2)
-
 # Open the dashboard and start real-time updates
 dashboard.open(live=True)
 update_dashboard()
