@@ -2,7 +2,7 @@ import pandas as pd
 from lightningchart import Themes, Chart3D
 
 # Set license key
-my_license_key = 'P001-ZgAiXcls82XucLjGo1pNDBmgknE/FgAGIi2wGJsKgHy4pMYuLCxrxf4UXnNH-MEQCIE7WrKAMcHSuauBhMtQTwX3JPNSQPhQvdGJFy5GoAArCAiBsiHovJHY6pyh59fLdvj+QT5ld5MbewJXf7NsivQvsUw=='
+my_license_key = 'Your license key'
 
 # Load data
 file_path = 'C:/Users/Taheri/Desktop/darsi/m8.5/workplacement/project 8/ElectricCarData_Clean.csv'
